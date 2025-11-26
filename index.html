@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarBench: A Comprehensive Benchmark for Neural Surrogates</title>
+    
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@300;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js for Interactive Plots -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js DataLabels Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.8rem;
+            margin: 0 0 15px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .btn-group {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--secondary); transform: translateY(-2px); }
+        .btn-outline { border: 1px solid rgba(255,255,255,0.3); color: white; }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+        /* --- Sections --- */
+        section {
+            background: var(--surface);
+            margin: 30px 0;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 12px;
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+
+        /* --- Interactive Chart Section --- */
+        .chart-container {
+            position: relative;
+            height: 600px; /* Increased height for labels */
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* --- Leaderboard Table --- */
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box, .filter-select {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .search-box { flex-grow: 1; }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #f1f5f9;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        th:hover { background: #e2e8f0; }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr.main-row:hover { background-color: #f8fafc; cursor: pointer; }
+        
+        /* Expanded Details */
+        tr.detail-row {
+            display: none;
+            background-color: #f8fafc;
+        }
+
+        tr.detail-row.active {
+            display: table-row;
+        }
+
+        .detail-content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-label { font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-value { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-top: 5px; }
+
+        /* Data Bars inside table */
+        .bar-container {
+            height: 6px;
+            width: 100%;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        .bar-fill { height: 100%; border-radius: 3px; }
+
+        /* Badges */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-transformer { background: #dbeafe; color: #1e40af; }
+        .badge-gnn { background: #dcfce7; color: #166534; }
+        .badge-point { background: #fce7f3; color: #9d174d; }
+        .badge-operator { background: #ffedd5; color: #9a3412; }
+        .badge-implicit { background: #f3e8ff; color: #6b21a8; }
+
+        /* --- Tabs --- */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-light);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-content { display: none; animation: fadeIn 0.4s; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gallery-img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Tooltip hint */
+        .tooltip-hint {
+            border-bottom: 1px dotted var(--text-light);
+            cursor: help;
+        }
+
+        /* --- Color Classes for Tables --- */
+        .bg-good { background-color: rgba(16, 185, 129, 0.1); color: #065f46; font-weight: bold; }
+        .bg-bad { background-color: rgba(239, 68, 68, 0.1); color: #991b1b; }
+        .bg-warn { background-color: rgba(245, 158, 11, 0.1); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .meta-info { flex-direction: column; align-items: center; gap: 5px; }
+            .chart-container { height: 350px; }
+            .table-wrapper { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>CarBench</h1>
+            <div class="subtitle">A Comprehensive Benchmark for Neural Surrogates on High-Fidelity 3D Car Aerodynamics</div>
+            
+            <div class="meta-info">
+                <span><i class="fas fa-user"></i> Mohamed Elrefaie<sup>1,2,*</sup></span>
+                <span><i class="fas fa-users"></i> Dule Shu<sup>3</sup>, Matt Klenk<sup>3</sup>, Faez Ahmed<sup>1,2</sup></span>
+            </div>
+            <div style="margin-top: 10px; font-size: 0.9rem; color: #94a3b8;">
+                1. MIT MechE &nbsp;|&nbsp; 2. MIT Schwarzman College &nbsp;|&nbsp; 3. Toyota Research Institute
+            </div>
+
+            <div class="btn-group">
+                <a href="#leaderboard" class="btn btn-primary"><i class="fas fa-trophy"></i> View Leaderboard</a>
+                <a href="https://github.com/Mohamedelrefaie/CarBench" class="btn btn-outline"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://dataverse.harvard.edu/dataverse/DrivAerNet" class="btn btn-outline"><i class="fas fa-database"></i> Dataset</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Intro -->
+        <section>
+            <h2><i class="fas fa-info-circle" style="color: var(--primary);"></i> About CarBench</h2>
+            <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px;">
+                    <p>
+                        <strong>CarBench</strong> is the first comprehensive benchmark dedicated to large‑scale 3D car aerodynamics. It evaluates state‑of‑the‑art deep learning models on <strong>DrivAerNet++</strong>, the largest public dataset for automotive aerodynamics containing over 8,000 high‑fidelity CFD simulations.
+                    </p>
+                    <p>
+                        We assess models across multiple paradigms—including Neural Operators, Geometric Deep Learning, and Transformers—focusing on <strong>predictive accuracy</strong>, <strong>physical consistency</strong>, and <strong>computational efficiency</strong>.
+                    </p>
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <img src="images/DrivAerNet-Benchmark_Overview.jpg" alt="Overview" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Chart -->
+        <section>
+            <h2><i class="fas fa-chart-scatter" style="color: var(--primary);"></i> Efficiency vs. Accuracy Frontier</h2>
+            <p style="color: var(--text-light); margin-bottom: 20px;">
+                Interactive visualization of the Pareto frontier.
+                <br><em>Lower and Left is better (Lower Error, Faster Inference). Bubble size represents parameter count.</em>
+            </p>
+            <div class="chart-container">
+                <canvas id="efficiencyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Advanced Leaderboard -->
+        <section id="leaderboard">
+            <h2><i class="fas fa-table" style="color: var(--primary);"></i> Interactive Leaderboard</h2>
+            
+            <div class="controls">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search models (e.g., 'Transolver')..." onkeyup="filterTable()">
+                <select id="categoryFilter" class="filter-select" onchange="filterTable()">
+                    <option value="all">All Architectures</option>
+                    <option value="Transformer">Transformer</option>
+                    <option value="Geometric DL">Geometric DL</option>
+                    <option value="Implicit">Implicit / Triplane</option>
+                    <option value="Neural Operator">Neural Operator</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="benchmarkTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('model')">Model <i class="fas fa-sort"></i></th>
+                            <th onclick="sortTable('family')">Family</th>
+                            <th onclick="sortTable('params')">Params (M) <i class="fas fa-sort"></i></th>
+                            <th onclick="sortTable('latency')">Latency (ms) <i class="fas fa-sort"></i></th>
+                            <th onclick="sortTable('rel_l2')" title="Relative L2 Error (Lower is better)" class="tooltip-hint">Rel L2 Error <i class="fas fa-sort"></i></th>
+                            <th onclick="sortTable('r2')" title="Coefficient of Determination (Higher is better)" class="tooltip-hint">R² Test <i class="fas fa-sort"></i></th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <p style="text-align: right; color: var(--text-light); font-size: 0.85rem; margin-top: 10px;">
+                * Click on any row to view uncertainty intervals and detailed error metrics.
+            </p>
+        </section>
+
+        <!-- Qualitative Analysis Tabs -->
+        <section>
+            <h2><i class="fas fa-eye" style="color: var(--primary);"></i> Qualitative Analysis</h2>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab(event, 'isometric')">Isometric View</button>
+                <button class="tab-btn" onclick="openTab(event, 'side')">Side View</button>
+                <button class="tab-btn" onclick="openTab(event, 'wheel')">Wheel Aerodynamics</button>
+            </div>
+
+            <!-- Tab 1 -->
+            <div id="isometric" class="tab-content active">
+                <p>Surface pressure predictions on unseen test geometries. Transformer-based models (AB-UPT, Transolver) capture stagnation zones and wake regions with higher fidelity than Point-based baselines.</p>
+                <img src="images/E_S_WW_WM_648_full_composite.jpg" alt="Isometric" class="gallery-img">
+            </div>
+
+            <!-- Tab 2 -->
+            <div id="side" class="tab-content">
+                <p>Side profile comparison showing pressure distribution along the roofline and underbody.</p>
+                <img src="images/E_S_WW_WM_648_full_composite_side.jpg" alt="Side" class="gallery-img">
+            </div>
+
+            <!-- Tab 3 -->
+            <div id="wheel" class="tab-content">
+                <p>
+                    <strong>Wheel Aerodynamics:</strong> Wheels contribute up to 25% of total drag. This region is challenging due to rotation and complex geometry. 
+                    Models like AB-UPT and TransolverLarge show significantly fewer artifacts on the tire surface.
+                </p>
+                <img src="images/front_left_wheel_comparison.jpg" alt="Wheel" class="gallery-img">
+            </div>
+        </section>
+
+        <!-- Cross-Category Generalization (NEW) -->
+        <section>
+            <h2><i class="fas fa-random" style="color: var(--primary);"></i> Cross-Category Generalization</h2>
+            <p>
+                Evaluating how well models trained on specific car archetypes (e.g., Fastback) generalize to unseen categories (e.g., Estateback). 
+                Results show that <strong>training on larger, more diverse datasets (Fastback) yields better transfer</strong> than training on smaller sets.
+                <em>(Metrics for Transolver / Transolver++)</em>
+            </p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Training Data</th>
+                            <th style="width: 25%;">Test Data (Unseen)</th>
+                            <th>Ratio (Train/Test)</th>
+                            <th>Rel L2 Error</th>
+                            <th>R² Score</th>
+                            <th>Verdict</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fastbacks + Notchbacks</td>
+                            <td>Estatebacks</td>
+                            <td>3.88</td>
+                            <td>0.239 / 0.218</td>
+                            <td>0.91 / 0.92</td>
+                            <td><span class="badge badge-gnn">Good Transfer</span></td>
+                        </tr>
+                        <tr>
+                            <td>Estatebacks + Fastbacks</td>
+                            <td>Notchbacks</td>
+                            <td>3.74</td>
+                            <td class="bg-good">0.172 / 0.173</td>
+                            <td class="bg-good">0.95 / 0.95</td>
+                            <td><span class="badge badge-gnn">Excellent</span></td>
+                        </tr>
+                        <tr>
+                            <td>Fastbacks Only</td>
+                            <td>Estate + Notch</td>
+                            <td>1.51</td>
+                            <td>0.254 / 0.245</td>
+                            <td>0.90 / 0.91</td>
+                            <td><span class="badge badge-gnn">Strong</span></td>
+                        </tr>
+                        <tr>
+                            <td>Estatebacks Only</td>
+                            <td>Fast + Notch</td>
+                            <td>0.15</td>
+                            <td class="bg-warn">0.398 / 0.419</td>
+                            <td class="bg-warn">0.74 / 0.72</td>
+                            <td><span class="badge badge-point">Poor</span></td>
+                        </tr>
+                        <tr>
+                            <td>Estatebacks + Notchbacks</td>
+                            <td>Fastbacks</td>
+                            <td>0.41</td>
+                            <td class="bg-bad">0.489 / 0.499</td>
+                            <td class="bg-bad">0.61 / 0.59</td>
+                            <td><span class="badge badge-point">Failure</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Statistical Error Distributions (NEW) -->
+        <section>
+            <h2><i class="fas fa-chart-bar" style="color: var(--primary);"></i> Statistical Error & Failure Analysis</h2>
+            <p>
+                Beyond average metrics, we analyze the <strong>tail of the error distribution</strong> (P95, P99). 
+                Models like PointNet suffer from massive outliers (P99 > 200 m²/s²), while AB-UPT maintains robustness even in extreme cases.
+            </p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Median Rel. Error</th>
+                            <th>P50 (Median) Error</th>
+                            <th>P95 (Tail) Error</th>
+                            <th>P99 (Extreme) Error</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>AB-UPT</strong></td>
+                            <td class="bg-good">0.06</td>
+                            <td class="bg-good">6.20</td>
+                            <td class="bg-good">37.90</td>
+                            <td class="bg-good">78.30</td>
+                        </tr>
+                        <tr>
+                            <td>TransolverLarge</td>
+                            <td>0.07</td>
+                            <td>6.84</td>
+                            <td>40.67</td>
+                            <td>83.17</td>
+                        </tr>
+                        <tr>
+                            <td>Transolver++</td>
+                            <td>0.09</td>
+                            <td>7.99</td>
+                            <td>44.73</td>
+                            <td>89.25</td>
+                        </tr>
+                        <tr>
+                            <td>RegDGCNN</td>
+                            <td>0.10</td>
+                            <td>9.91</td>
+                            <td>54.15</td>
+                            <td>111.75</td>
+                        </tr>
+                        <tr>
+                            <td>PointNet</td>
+                            <td class="bg-bad">0.19</td>
+                            <td class="bg-bad">17.57</td>
+                            <td class="bg-bad">101.32</td>
+                            <td class="bg-bad">249.43</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Subsampled vs Full Mesh (NEW) -->
+        <section>
+            <h2><i class="fas fa-vector-square" style="color: var(--primary);"></i> Subsampled vs. Full-Resolution Evaluation</h2>
+            <p>
+                Evaluating on point clouds (10k points) often masks true errors. 
+                Testing on the <strong>Full CFD Mesh (487k points)</strong> reveals significant performance drops, especially for older architectures.
+            </p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>10k Points (Rel L2)</th>
+                            <th>Full Mesh (Rel L2)</th>
+                            <th>Performance Gap</th>
+                            <th>Full Mesh R²</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>AB-UPT</strong></td>
+                            <td>0.136</td>
+                            <td>0.291</td>
+                            <td class="bg-warn">+114%</td>
+                            <td>0.869</td>
+                        </tr>
+                        <tr>
+                            <td>Transolver++</td>
+                            <td>0.156</td>
+                            <td>0.293</td>
+                            <td class="bg-warn">+88%</td>
+                            <td>0.867</td>
+                        </tr>
+                        <tr>
+                            <td>RegDGCNN</td>
+                            <td>0.205</td>
+                            <td>0.293</td>
+                            <td class="bg-good">+43%</td>
+                            <td>0.866</td>
+                        </tr>
+                        <tr>
+                            <td>NeuralOperator</td>
+                            <td>0.324</td>
+                            <td>0.347</td>
+                            <td class="bg-good">+7%</td>
+                            <td>0.813</td>
+                        </tr>
+                        <tr>
+                            <td>PointNet</td>
+                            <td>0.395</td>
+                            <td>0.403</td>
+                            <td class="bg-good">+2%</td>
+                            <td class="bg-bad">0.747</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 10px;">
+                * Note: Models with very high initial error (like PointNet) show small gaps because they perform poorly at both resolutions. High-accuracy models show larger relative gaps but still achieve the best absolute performance.
+            </p>
+        </section>
+
+        <!-- Dataset Info -->
+        <section>
+            <h2><i class="fas fa-layer-group" style="color: var(--primary);"></i> Dataset Statistics</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <img src="images/CarsDatasets.jpg" alt="Dataset Comparison" class="gallery-img">
+                    <p style="font-size: 0.9rem; color: var(--text-light); text-align: center;">Comparison with existing datasets (DrivAerML, SHIFT-SUV).</p>
+                </div>
+                <div>
+                    <img src="images/pca_datasets_DrivAerNet-Benchmark.jpg" alt="PCA" class="gallery-img">
+                    <p style="font-size: 0.9rem; color: var(--text-light); text-align: center;">PCA projection showing the superior geometric diversity of DrivAerNet++.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- DATA ---
+        // Enhanced dataset with uncertainty and family categories
+        const modelData = [
+            { id: 1, model: "AB-UPT", family: "Transformer", params: 6.01, latency: 30.65, rel_l2: 0.1358, r2: 0.9675, mse: 559, rmse: 23.6, unc_l2: "±0.0024", unc_r2: "±0.0019" },
+            { id: 2, model: "TransolverLarge", family: "Transformer", params: 7.58, latency: 28.41, rel_l2: 0.1457, r2: 0.9595, mse: 579, rmse: 24.1, unc_l2: "±0.0025", unc_r2: "±0.0069" },
+            { id: 3, model: "Transolver", family: "Transformer", params: 2.47, latency: 29.84, rel_l2: 0.1503, r2: 0.9577, mse: 605, rmse: 24.6, unc_l2: "±0.0024", unc_r2: "±0.0067" },
+            { id: 4, model: "Transolver++", family: "Transformer", params: 1.81, latency: 28.47, rel_l2: 0.1573, r2: 0.9543, mse: 653, rmse: 25.6, unc_l2: "±0.0023", unc_r2: "±0.0066" },
+            { id: 5, model: "TripNet", family: "Implicit", params: 24.10, latency: 15.49, rel_l2: 0.1608, r2: 0.9590, mse: 596, rmse: 24.9, unc_l2: "±0.0024", unc_r2: "±0.0067" },
+            { id: 6, model: "PointTransformer", family: "Geometric DL", params: 3.05, latency: 95.68, rel_l2: 0.1909, r2: 0.9359, mse: 917, rmse: 30.3, unc_l2: "±0.0024", unc_r2: "±0.0054" },
+            { id: 7, model: "RegDGCNN", family: "Geometric DL", params: 1.44, latency: 231.98, rel_l2: 0.2006, r2: 0.9327, mse: 957, rmse: 30.9, unc_l2: "±0.0016", unc_r2: "±0.0033" },
+            { id: 8, model: "PointNetLarge", family: "Geometric DL", params: 32.58, latency: 8.29, rel_l2: 0.2436, r2: 0.9025, mse: 1384, rmse: 37.2, unc_l2: "±0.0013", unc_r2: "±0.0022" },
+            { id: 9, model: "PointMAE", family: "Geometric DL", params: 1.67, latency: 3.11, rel_l2: 0.2713, r2: 0.8791, mse: 1716, rmse: 41.4, unc_l2: "±0.0016", unc_r2: "±0.0023" },
+            { id: 10, model: "NeuralOperator", family: "Neural Operator", params: 2.10, latency: 2.14, rel_l2: 0.3016, r2: 0.8503, mse: 2130, rmse: 46.2, unc_l2: "±0.0019", unc_r2: "±0.0026" },
+            { id: 11, model: "PointNet", family: "Geometric DL", params: 1.67, latency: 1.54, rel_l2: 0.3803, r2: 0.7639, mse: 3350, rmse: 57.9, unc_l2: "±0.0020", unc_r2: "±0.0027" }
+        ];
+
+        // --- CHART JS ---
+        function initChart() {
+            // Register DataLabels
+            Chart.register(ChartDataLabels);
+
+            const ctx = document.getElementById('efficiencyChart').getContext('2d');
+            
+            // Map families to colors
+            const familyColors = {
+                "Transformer": "#2563eb",
+                "Geometric DL": "#db2777",
+                "Neural Operator": "#ea580c",
+                "Implicit": "#7c3aed"
+            };
+
+            const dataPoints = modelData.map(m => ({
+                x: m.latency,
+                y: m.rel_l2,
+                r: Math.sqrt(m.params) * 3 + 6, // Adjusted bubble size
+                model: m.model,
+                family: m.family,
+                params: m.params
+            }));
+
+            new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                    datasets: Object.keys(familyColors).map(fam => ({
+                        label: fam,
+                        data: dataPoints.filter(d => d.family === fam),
+                        backgroundColor: familyColors[fam],
+                        borderColor: 'rgba(255,255,255,0.8)',
+                        borderWidth: 1
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 20, bottom: 20, left: 20, right: 20
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'logarithmic',
+                            title: { display: true, text: 'Inference Latency (ms) - Log Scale' },
+                            min: 1, max: 350
+                        },
+                        y: {
+                            title: { display: true, text: 'Relative L2 Error (Lower is Better)' },
+                            min: 0.1, max: 0.45
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const p = context.raw;
+                                    return `${p.model}: Error ${p.y}, Latency ${p.x}ms, ${p.params}M Params`;
+                                }
+                            }
+                        },
+                        // Configure DataLabels to show model names
+                        datalabels: {
+                            align: 'top',
+                            anchor: 'end',
+                            offset: 4,
+                            formatter: function(value) {
+                                return value.model;
+                            },
+                            font: {
+                                weight: 'bold',
+                                size: 10
+                            },
+                            color: '#334155',
+                            // Hide labels if they overlap too much (optional, but good for crowded charts)
+                            display: function(context) {
+                                // Always show for top performers to avoid clutter
+                                return context.dataset.data.length < 10 || context.dataIndex % 1 === 0; 
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- TABLE LOGIC ---
+        function getBadgeClass(family) {
+            if (family.includes("Transformer")) return "badge-transformer";
+            if (family.includes("Geometric")) return "badge-gnn";
+            if (family.includes("Point")) return "badge-point";
+            if (family.includes("Operator")) return "badge-operator";
+            return "badge-implicit";
+        }
+
+        const maxErr = Math.max(...modelData.map(d => d.rel_l2));
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(row => {
+                // Main Row
+                const tr = document.createElement('tr');
+                tr.className = 'main-row';
+                tr.onclick = () => toggleDetails(row.id);
+                
+                const errPct = (row.rel_l2 / maxErr) * 100;
+                const r2Pct = (row.r2 / 1.0) * 100;
+
+                tr.innerHTML = `
+                    <td><strong>${row.model}</strong></td>
+                    <td><span class="badge ${getBadgeClass(row.family)}">${row.family}</span></td>
+                    <td>${row.params}</td>
+                    <td>${row.latency}</td>
+                    <td>
+                        ${row.rel_l2}
+                        <div class="bar-container"><div class="bar-fill" style="width:${errPct}%; background: ${row.rel_l2 < 0.16 ? 'var(--success)' : '#ef4444'};"></div></div>
+                    </td>
+                    <td>
+                        ${row.r2}
+                         <div class="bar-container"><div class="bar-fill" style="width:${r2Pct}%; background: var(--primary);"></div></div>
+                    </td>
+                    <td style="text-align:center;"><i class="fas fa-chevron-down" style="color:var(--text-light)"></i></td>
+                `;
+                tbody.appendChild(tr);
+
+                // Detail Row
+                const detailTr = document.createElement('tr');
+                detailTr.className = 'detail-row';
+                detailTr.id = `detail-${row.id}`;
+                detailTr.innerHTML = `
+                    <td colspan="7">
+                        <div class="detail-content">
+                            <div class="stat-box">
+                                <div class="stat-label">MSE (m⁴/s⁴)</div>
+                                <div class="stat-value">${row.mse}</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">RMSE (m²/s²)</div>
+                                <div class="stat-value">${row.rmse}</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Rel L2 Uncertainty</div>
+                                <div class="stat-value">${row.rel_l2} ${row.unc_l2}</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">R² Uncertainty</div>
+                                <div class="stat-value">${row.r2} ${row.unc_r2}</div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(detailTr);
+            });
+        }
+
+        function toggleDetails(id) {
+            const el = document.getElementById(`detail-${id}`);
+            if (el.classList.contains('active')) {
+                el.classList.remove('active');
+            } else {
+                document.querySelectorAll('.detail-row').forEach(r => r.classList.remove('active'));
+                el.classList.add('active');
+            }
+        }
+
+        function filterTable() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const cat = document.getElementById('categoryFilter').value;
+
+            const filtered = modelData.filter(row => {
+                const matchesSearch = row.model.toLowerCase().includes(search);
+                const matchesCat = cat === 'all' || row.family.includes(cat) || (cat === "Implicit" && row.family === "Implicit");
+                return matchesSearch && matchesCat;
+            });
+
+            renderTable(filtered);
+        }
+
+        let sortDir = 1;
+        function sortTable(key) {
+            sortDir *= -1;
+            const sorted = [...modelData].sort((a, b) => {
+                if (a[key] < b[key]) return -1 * sortDir;
+                if (a[key] > b[key]) return 1 * sortDir;
+                return 0;
+            });
+            renderTable(sorted);
+        }
+
+        // --- TABS LOGIC ---
+        function openTab(evt, tabName) {
+            const tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            const tablinks = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // --- INIT ---
+        window.onload = function() {
+            renderTable(modelData);
+            initChart();
+        };
+
+    </script>
+</body>
+</html>
