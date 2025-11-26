@@ -120,7 +120,7 @@
         /* --- Interactive Chart Section --- */
         .chart-container {
             position: relative;
-            height: 600px; /* Increased height for labels */
+            height: 600px;
             width: 100%;
             margin-top: 20px;
         }
@@ -313,17 +313,17 @@
         <!-- Intro -->
         <section>
             <h2><i class="fas fa-info-circle" style="color: var(--primary);"></i> About CarBench</h2>
-            <div style="display: flex; gap: 30px; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 300px;">
-                    <p>
-                        <strong>CarBench</strong> is the first comprehensive benchmark dedicated to large‑scale 3D car aerodynamics. It evaluates state‑of‑the‑art deep learning models on <strong>DrivAerNet++</strong>, the largest public dataset for automotive aerodynamics containing over 8,000 high‑fidelity CFD simulations.
-                    </p>
-                    <p>
-                        We assess models across multiple paradigms—including Neural Operators, Geometric Deep Learning, and Transformers—focusing on <strong>predictive accuracy</strong>, <strong>physical consistency</strong>, and <strong>computational efficiency</strong>.
-                    </p>
-                </div>
-                <div style="flex: 1; min-width: 300px;">
-                    <img src="images/DrivAerNet-Benchmark_Overview.png" alt="Overview" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+            <!-- Changed layout from flex to block to allow full width image -->
+            <div>
+                <p>
+                    <strong>CarBench</strong> is the first comprehensive benchmark dedicated to large‑scale 3D car aerodynamics. It evaluates state‑of‑the‑art deep learning models on <strong>DrivAerNet++</strong>, the largest public dataset for automotive aerodynamics containing over 8,000 high‑fidelity CFD simulations.
+                </p>
+                <p>
+                    We assess models across multiple paradigms—including Neural Operators, Geometric Deep Learning, and Transformers—focusing on <strong>predictive accuracy</strong>, <strong>physical consistency</strong>, and <strong>computational efficiency</strong>.
+                </p>
+                
+                <div style="margin-top: 30px;">
+                    <img src="https://raw.githubusercontent.com/Mohamedelrefaie/CarBench/main/images/DrivAerNet-Benchmark_Overview.png" alt="Overview" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
                 </div>
             </div>
         </section>
@@ -390,13 +390,13 @@
             <!-- Tab 1 -->
             <div id="isometric" class="tab-content active">
                 <p>Surface pressure predictions on unseen test geometries. Transformer-based models (AB-UPT, Transolver) capture stagnation zones and wake regions with higher fidelity than Point-based baselines.</p>
-                <img src="images/E_S_WW_WM_648_full_composite.png" alt="Isometric" class="gallery-img">
+                <img src="https://raw.githubusercontent.com/Mohamedelrefaie/CarBench/main/images/E_S_WW_WM_648_full_composite.png" alt="Isometric View" class="gallery-img">
             </div>
 
             <!-- Tab 2 -->
             <div id="side" class="tab-content">
                 <p>Side profile comparison showing pressure distribution along the roofline and underbody.</p>
-                <img src="images/E_S_WW_WM_648_full_composite_side.png" alt="Side" class="gallery-img">
+                <img src="https://raw.githubusercontent.com/Mohamedelrefaie/CarBench/main/images/E_S_WW_WM_648_full_composite_side.png" alt="Side Profile" class="gallery-img">
             </div>
 
             <!-- Tab 3 -->
@@ -405,7 +405,7 @@
                     <strong>Wheel Aerodynamics:</strong> Wheels contribute up to 25% of total drag. This region is challenging due to rotation and complex geometry. 
                     Models like AB-UPT and TransolverLarge show significantly fewer artifacts on the tire surface.
                 </p>
-                <img src="images/front_left_wheel_comparison.png" alt="Wheel" class="gallery-img">
+                <img src="https://raw.githubusercontent.com/Mohamedelrefaie/CarBench/main/images/front_left_wheel_comparison.png" alt="Wheel Comparison" class="gallery-img">
             </div>
         </section>
 
@@ -599,15 +599,20 @@
 
         <!-- Dataset Info -->
         <section>
-            <h2><i class="fas fa-layer-group" style="color: var(--primary);"></i> Dataset Statistics</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div>
-                    <img src="images/CarsDatasets.png" alt="Dataset Comparison" class="gallery-img">
-                    <p style="font-size: 0.9rem; color: var(--text-light); text-align: center;">Comparison with existing datasets (DrivAerML, SHIFT-SUV).</p>
-                </div>
-                <div>
-                    <img src="images/pca_datasets_DrivAerNet-Benchmark.png" alt="PCA" class="gallery-img">
-                    <p style="font-size: 0.9rem; color: var(--text-light); text-align: center;">PCA projection showing the superior geometric diversity of DrivAerNet++.</p>
+            <h2><i class="fas fa-layer-group" style="color: var(--primary);"></i> Geometric Diversity Analysis</h2>
+            
+            <div style="text-align: center;">
+                <img src="https://raw.githubusercontent.com/Mohamedelrefaie/CarBench/main/images/pca_datasets_DrivAerNet-Benchmark.png" alt="PCA Projection" class="gallery-img" style="max-width: 100%;">
+                
+                <div style="margin-top: 25px; text-align: left;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--text-main);">Superior Coverage of the Design Space</h3>
+                    <p style="margin-bottom: 15px; color: var(--text-light);">
+                        The Principal Component Analysis (PCA) projection above illustrates the geometric feature space covered by various automotive datasets. 
+                        <strong>DrivAerNet++</strong> (represented by the broad distribution of points) spans a significantly wider and more continuous region compared to existing datasets like DrivAerML and SHIFT-SUV.
+                    </p>
+                    <p style="color: var(--text-light);">
+                        This superior diversity is critical for training robust neural surrogates. Unlike previous benchmarks that cluster around specific vehicle types, DrivAerNet++ encompasses a comprehensive range of morphologies—including variations in fastbacks, estatebacks, and notchbacks—ensuring models generalize well to unseen, complex geometries found in real-world automotive engineering.
+                    </p>
                 </div>
             </div>
         </section>
