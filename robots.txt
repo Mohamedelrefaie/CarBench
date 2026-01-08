@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://mohamedelrefaie.github.io/CarBench/sitemap.xml

@@ -1,10 +1,85 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CarBench: A Comprehensive Benchmark for Neural Surrogates</title>
+    <title>CarBench: A Comprehensive Benchmark for Neural Surrogates on 3D Car Aerodynamics</title>
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="CarBench is the first comprehensive benchmark for neural surrogates on large-scale 3D car aerodynamics. Evaluate deep learning models on DrivAerNet++, the largest public dataset with 8,000+ high-fidelity CFD simulations.">
+    <meta name="keywords" content="CarBench, neural surrogates, car aerodynamics, CFD simulation, deep learning, DrivAerNet, benchmark, machine learning, automotive, computational fluid dynamics, MIT, Toyota Research Institute, Transolver, AB-UPT, PointNet">
+    <meta name="author" content="Mohamed Elrefaie, Dule Shu, Matt Klenk, Faez Ahmed">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mohamedelrefaie.github.io/CarBench/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mohamedelrefaie.github.io/CarBench/">
+    <meta property="og:title" content="CarBench: Benchmark for Neural Surrogates on 3D Car Aerodynamics">
+    <meta property="og:description" content="The first comprehensive benchmark for neural surrogates on large-scale 3D car aerodynamics. Evaluate deep learning models on DrivAerNet++ with 8,000+ CFD simulations.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Mohamedelrefaie/CarBench/main/images/DrivAerNet-Benchmark_Overview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="CarBench">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://mohamedelrefaie.github.io/CarBench/">
+    <meta name="twitter:title" content="CarBench: Benchmark for Neural Surrogates on 3D Car Aerodynamics">
+    <meta name="twitter:description" content="The first comprehensive benchmark for neural surrogates on large-scale 3D car aerodynamics. Evaluate deep learning models on DrivAerNet++.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/Mohamedelrefaie/CarBench/main/images/DrivAerNet-Benchmark_Overview.png">
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Structured Data (JSON-LD) for Research Software -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "CarBench",
+      "description": "A comprehensive benchmark for neural surrogates on high-fidelity 3D car aerodynamics using the DrivAerNet++ dataset with over 8,000 CFD simulations.",
+      "url": "https://mohamedelrefaie.github.io/CarBench/",
+      "applicationCategory": "Scientific Software",
+      "operatingSystem": "Any",
+      "author": [
+        {"@type": "Person", "name": "Mohamed Elrefaie", "affiliation": {"@type": "Organization", "name": "Massachusetts Institute of Technology"}},
+        {"@type": "Person", "name": "Dule Shu", "affiliation": {"@type": "Organization", "name": "Toyota Research Institute"}},
+        {"@type": "Person", "name": "Matt Klenk", "affiliation": {"@type": "Organization", "name": "Toyota Research Institute"}},
+        {"@type": "Person", "name": "Faez Ahmed", "affiliation": {"@type": "Organization", "name": "Massachusetts Institute of Technology"}}
+      ]
+    }
+    </script>
+    
+    <!-- Structured Data for Dataset -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "DrivAerNet++",
+      "description": "The largest public dataset for automotive aerodynamics containing over 8,000 high-fidelity CFD simulations for training neural surrogates.",
+      "url": "https://dataverse.harvard.edu/dataverse/DrivAerNet",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "creator": {"@type": "Person", "name": "Mohamed Elrefaie"},
+      "keywords": ["CFD", "aerodynamics", "automotive", "deep learning", "neural networks"]
+    }
+    </script>
+    
+    <!-- Structured Data for WebPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "CarBench Benchmark",
+      "description": "Interactive leaderboard and comprehensive benchmark for neural surrogates on 3D car aerodynamics",
+      "url": "https://mohamedelrefaie.github.io/CarBench/",
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "CarBench"
+      }
+    }
+    </script>
+
     <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@300;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -317,10 +392,10 @@
             <!-- Changed layout from flex to block to allow full width image -->
             <div>
                 <p>
-                    <strong>CarBench</strong> is the first comprehensive benchmark dedicated to large‑scale 3D car aerodynamics. It evaluates state‑of‑the‑art deep learning models on <strong>DrivAerNet++</strong>, the largest public dataset for automotive aerodynamics containing over 8,000 high‑fidelity CFD simulations.
+                    <strong>CarBench</strong> is the first comprehensive benchmark dedicated to largeâ€‘scale 3D car aerodynamics. It evaluates stateâ€‘ofâ€‘theâ€‘art deep learning models on <strong>DrivAerNet++</strong>, the largest public dataset for automotive aerodynamics containing over 8,000 highâ€‘fidelity CFD simulations.
                 </p>
                 <p>
-                    We assess models across multiple paradigms—including Neural Operators, Geometric Deep Learning, and Transformers—focusing on <strong>predictive accuracy</strong>, <strong>physical consistency</strong>, and <strong>computational efficiency</strong>.
+                    We assess models across multiple paradigmsâ€”including Neural Operators, Geometric Deep Learning, and Transformersâ€”focusing on <strong>predictive accuracy</strong>, <strong>physical consistency</strong>, and <strong>computational efficiency</strong>.
                 </p>
                 
                 <div style="margin-top: 30px;">
@@ -365,7 +440,7 @@
                             <th onclick="sortTable('params')">Params (M) <i class="fas fa-sort"></i></th>
                             <th onclick="sortTable('latency')">Latency (ms) <i class="fas fa-sort"></i></th>
                             <th onclick="sortTable('rel_l2')" title="Relative L2 Error (Lower is better)" class="tooltip-hint">Rel L2 Error <i class="fas fa-sort"></i></th>
-                            <th onclick="sortTable('r2')" title="Coefficient of Determination (Higher is better)" class="tooltip-hint">R² Test <i class="fas fa-sort"></i></th>
+                            <th onclick="sortTable('r2')" title="Coefficient of Determination (Higher is better)" class="tooltip-hint">RÂ² Test <i class="fas fa-sort"></i></th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -427,7 +502,7 @@
                             <th style="width: 25%;">Test Data (Unseen)</th>
                             <th>Ratio (Train/Test)</th>
                             <th>Rel L2 Error</th>
-                            <th>R² Score</th>
+                            <th>RÂ² Score</th>
                             <th>Verdict</th>
                         </tr>
                     </thead>
@@ -482,7 +557,7 @@
             <h2><i class="fas fa-chart-bar" style="color: var(--primary);"></i> Statistical Error & Failure Analysis</h2>
             <p>
                 Beyond average metrics, we analyze the <strong>tail of the error distribution</strong> (P95, P99). 
-                Models like PointNet suffer from massive outliers (P99 > 200 m²/s²), while AB-UPT maintains robustness even in extreme cases.
+                Models like PointNet suffer from massive outliers (P99 > 200 mÂ²/sÂ²), while AB-UPT maintains robustness even in extreme cases.
             </p>
             <div class="table-wrapper">
                 <table>
@@ -551,7 +626,7 @@
                             <th>10k Points (Rel L2)</th>
                             <th>Full Mesh (Rel L2)</th>
                             <th>Performance Gap</th>
-                            <th>Full Mesh R²</th>
+                            <th>Full Mesh RÂ²</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -612,7 +687,7 @@
                         <strong>DrivAerNet++</strong> (represented by the broad distribution of points) spans a significantly wider and more continuous region compared to existing datasets like DrivAerML and SHIFT-SUV.
                     </p>
                     <p style="color: var(--text-light);">
-                        This superior diversity is critical for training robust neural surrogates. Unlike previous benchmarks that cluster around specific vehicle types, DrivAerNet++ encompasses a comprehensive range of morphologies—including variations in fastbacks, estatebacks, and notchbacks—ensuring models generalize well to unseen, complex geometries found in real-world automotive engineering.
+                        This superior diversity is critical for training robust neural surrogates. Unlike previous benchmarks that cluster around specific vehicle types, DrivAerNet++ encompasses a comprehensive range of morphologiesâ€”including variations in fastbacks, estatebacks, and notchbacksâ€”ensuring models generalize well to unseen, complex geometries found in real-world automotive engineering.
                     </p>
                 </div>
             </div>
@@ -624,17 +699,17 @@
         // --- DATA ---
         // Enhanced dataset with uncertainty and family categories
         const modelData = [
-            { id: 1, model: "AB-UPT", family: "Transformer", params: 6.01, latency: 30.65, rel_l2: 0.1358, r2: 0.9675, mse: 559, rmse: 23.6, unc_l2: "±0.0024", unc_r2: "±0.0019" },
-            { id: 2, model: "TransolverLarge", family: "Transformer", params: 7.58, latency: 28.41, rel_l2: 0.1457, r2: 0.9595, mse: 579, rmse: 24.1, unc_l2: "±0.0025", unc_r2: "±0.0069" },
-            { id: 3, model: "Transolver", family: "Transformer", params: 2.47, latency: 29.84, rel_l2: 0.1503, r2: 0.9577, mse: 605, rmse: 24.6, unc_l2: "±0.0024", unc_r2: "±0.0067" },
-            { id: 4, model: "Transolver++", family: "Transformer", params: 1.81, latency: 28.47, rel_l2: 0.1573, r2: 0.9543, mse: 653, rmse: 25.6, unc_l2: "±0.0023", unc_r2: "±0.0066" },
-            { id: 5, model: "TripNet", family: "Implicit", params: 24.10, latency: 15.49, rel_l2: 0.1608, r2: 0.9590, mse: 596, rmse: 24.9, unc_l2: "±0.0024", unc_r2: "±0.0067" },
-            { id: 6, model: "PointTransformer", family: "Geometric DL", params: 3.05, latency: 95.68, rel_l2: 0.1909, r2: 0.9359, mse: 917, rmse: 30.3, unc_l2: "±0.0024", unc_r2: "±0.0054" },
-            { id: 7, model: "RegDGCNN", family: "Geometric DL", params: 1.44, latency: 231.98, rel_l2: 0.2006, r2: 0.9327, mse: 957, rmse: 30.9, unc_l2: "±0.0016", unc_r2: "±0.0033" },
-            { id: 8, model: "PointNetLarge", family: "Geometric DL", params: 32.58, latency: 8.29, rel_l2: 0.2436, r2: 0.9025, mse: 1384, rmse: 37.2, unc_l2: "±0.0013", unc_r2: "±0.0022" },
-            { id: 9, model: "PointMAE", family: "Geometric DL", params: 1.67, latency: 3.11, rel_l2: 0.2713, r2: 0.8791, mse: 1716, rmse: 41.4, unc_l2: "±0.0016", unc_r2: "±0.0023" },
-            { id: 10, model: "NeuralOperator", family: "Neural Operator", params: 2.10, latency: 2.14, rel_l2: 0.3016, r2: 0.8503, mse: 2130, rmse: 46.2, unc_l2: "±0.0019", unc_r2: "±0.0026" },
-            { id: 11, model: "PointNet", family: "Geometric DL", params: 1.67, latency: 1.54, rel_l2: 0.3803, r2: 0.7639, mse: 3350, rmse: 57.9, unc_l2: "±0.0020", unc_r2: "±0.0027" }
+            { id: 1, model: "AB-UPT", family: "Transformer", params: 6.01, latency: 30.65, rel_l2: 0.1358, r2: 0.9675, mse: 559, rmse: 23.6, unc_l2: "Â±0.0024", unc_r2: "Â±0.0019" },
+            { id: 2, model: "TransolverLarge", family: "Transformer", params: 7.58, latency: 28.41, rel_l2: 0.1457, r2: 0.9595, mse: 579, rmse: 24.1, unc_l2: "Â±0.0025", unc_r2: "Â±0.0069" },
+            { id: 3, model: "Transolver", family: "Transformer", params: 2.47, latency: 29.84, rel_l2: 0.1503, r2: 0.9577, mse: 605, rmse: 24.6, unc_l2: "Â±0.0024", unc_r2: "Â±0.0067" },
+            { id: 4, model: "Transolver++", family: "Transformer", params: 1.81, latency: 28.47, rel_l2: 0.1573, r2: 0.9543, mse: 653, rmse: 25.6, unc_l2: "Â±0.0023", unc_r2: "Â±0.0066" },
+            { id: 5, model: "TripNet", family: "Implicit", params: 24.10, latency: 15.49, rel_l2: 0.1608, r2: 0.9590, mse: 596, rmse: 24.9, unc_l2: "Â±0.0024", unc_r2: "Â±0.0067" },
+            { id: 6, model: "PointTransformer", family: "Geometric DL", params: 3.05, latency: 95.68, rel_l2: 0.1909, r2: 0.9359, mse: 917, rmse: 30.3, unc_l2: "Â±0.0024", unc_r2: "Â±0.0054" },
+            { id: 7, model: "RegDGCNN", family: "Geometric DL", params: 1.44, latency: 231.98, rel_l2: 0.2006, r2: 0.9327, mse: 957, rmse: 30.9, unc_l2: "Â±0.0016", unc_r2: "Â±0.0033" },
+            { id: 8, model: "PointNetLarge", family: "Geometric DL", params: 32.58, latency: 8.29, rel_l2: 0.2436, r2: 0.9025, mse: 1384, rmse: 37.2, unc_l2: "Â±0.0013", unc_r2: "Â±0.0022" },
+            { id: 9, model: "PointMAE", family: "Geometric DL", params: 1.67, latency: 3.11, rel_l2: 0.2713, r2: 0.8791, mse: 1716, rmse: 41.4, unc_l2: "Â±0.0016", unc_r2: "Â±0.0023" },
+            { id: 10, model: "NeuralOperator", family: "Neural Operator", params: 2.10, latency: 2.14, rel_l2: 0.3016, r2: 0.8503, mse: 2130, rmse: 46.2, unc_l2: "Â±0.0019", unc_r2: "Â±0.0026" },
+            { id: 11, model: "PointNet", family: "Geometric DL", params: 1.67, latency: 1.54, rel_l2: 0.3803, r2: 0.7639, mse: 3350, rmse: 57.9, unc_l2: "Â±0.0020", unc_r2: "Â±0.0027" }
         ];
 
         // --- CHART JS ---
@@ -774,11 +849,11 @@
                     <td colspan="7">
                         <div class="detail-content">
                             <div class="stat-box">
-                                <div class="stat-label">MSE (m⁴/s⁴)</div>
+                                <div class="stat-label">MSE (mâ´/sâ´)</div>
                                 <div class="stat-value">${row.mse}</div>
                             </div>
                             <div class="stat-box">
-                                <div class="stat-label">RMSE (m²/s²)</div>
+                                <div class="stat-label">RMSE (mÂ²/sÂ²)</div>
                                 <div class="stat-value">${row.rmse}</div>
                             </div>
                             <div class="stat-box">
@@ -786,7 +861,7 @@
                                 <div class="stat-value">${row.rel_l2} ${row.unc_l2}</div>
                             </div>
                             <div class="stat-box">
-                                <div class="stat-label">R² Uncertainty</div>
+                                <div class="stat-label">RÂ² Uncertainty</div>
                                 <div class="stat-value">${row.r2} ${row.unc_r2}</div>
                             </div>
                         </div>
@@ -853,3 +928,4 @@
     </script>
 </body>
 </html>
+
