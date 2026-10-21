@@ -2,7 +2,7 @@
 
 **A benchmark for neural surrogates on high-fidelity 3D car aerodynamics.**
 
-Published in *Communications Engineering*, a Nature Portfolio journal
+Published in **Nature Communications Engineering**
 ([doi:10.1038/s44172-026-00805-2](https://doi.org/10.1038/s44172-026-00805-2)).
 
 CarBench trains and evaluates eleven neural surrogate models for surface-pressure
@@ -12,7 +12,7 @@ bootstrap confidence interval on every reported number.
 
 This repository contains the code and the trained weights behind the paper.
 
-- Paper: **Communications Engineering** (Nature Portfolio), 2026 — https://doi.org/10.1038/s44172-026-00805-2
+- Paper: **Nature Communications Engineering**, 2026 — https://doi.org/10.1038/s44172-026-00805-2
 - Leaderboard: https://web.mit.edu/decode/www/carbench/
 - Dataset: https://dataverse.harvard.edu/dataverse/DrivAerNet (CC BY-NC 4.0)
 
@@ -122,7 +122,7 @@ evaluate and compare it alongside the rest.
   title     = {CarBench: A comprehensive benchmark for neural surrogates on
                high-fidelity 3D car aerodynamics},
   author    = {Elrefaie, Mohamed and Shu, Dule and Klenk, Matt and Ahmed, Faez},
-  journal   = {Communications Engineering},
+  journal   = {Nature Communications Engineering},
   publisher = {Nature Portfolio},
   year      = {2026},
   doi       = {10.1038/s44172-026-00805-2},
