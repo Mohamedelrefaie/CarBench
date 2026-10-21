@@ -1,0 +1,42 @@
+# AB-UPT FROM-SCRATCH config (rebuttal point 2) — mirrors the Noether DrivAerNet recipe
+# (Emmi-AI/noether recipes/aero_cfd) with architecture + budget matched to the released
+# pressure_abupt_checkpoint.th, so the ONLY difference vs the pretrained row is random init.
+# Used by experiments/from_scratch/train_abupt.py. NO checkpoint_path -> trains from scratch.
+
+# --- architecture (== released ctor_kwargs == vendored SurfaceOnlyABUPT() default, 6.0M) ---
+ctor_kwargs:
+  dim: 192
+  geometry_depth: 1
+  blocks: "p"
+  num_surface_blocks: 11
+  num_heads: 3
+  radius: 1
+  ndim: 3
+  input_dim: 3
+  output_dim_surface: 4        # pressure[1] + wallshearstress[3]; we eval pressure (ch 0)
+
+# --- data pipeline (Noether DrivAerNetPreset, AeroABUPT overrides) ---
+num_geometry_points: 16384
+num_geometry_supernodes: 1024
+num_surface_anchor_points: 512
+# num_surface_queries: 0 (no queries during training; use_query_positions=False)
+
+# --- optimizer: Lion (the AB-UPT/Noether default) ---
+lr: 5.0e-5
+weight_decay: 0.05
+betas: [0.9, 0.99]
+gradient_clip: 0.25
+
+# --- schedule: linear warmup -> cosine decay (per-step) ---
+warmup_percent: 0.05
+eta_min: 1.0e-6
+
+# --- EMA (released checkpoint used decay 0.9999; we evaluate the EMA weights) ---
+ema_decay: 0.9999
+
+# --- budget (released abs_ckpt: epoch=30, 174480 updates, batch 1) ---
+epochs: 30
+batch_size: 1
+mixed_precision: true
+seed: 42
+loss: mse

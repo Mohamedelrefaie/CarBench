@@ -1,0 +1,37 @@
+# models/pointmae/config.yaml
+# Use the hybrid architecture for better performance
+# Use one of: "hybrid", "pointnet++", "efficient", "pointmae"
+architecture: "efficient"
+use_lightweight: false
+use_pretrained: false  # Only applies to original pointmae
+
+
+# Model parameters (for hybrid)
+embed_dim: 256          # Smaller for hybrid
+depth: 4                # Fewer layers needed
+num_heads: 8
+mlp_ratio: 4.0
+
+# Don't use pretrained for non-pointmae architectures
+use_pretrained: false
+
+# Training settings
+epochs: 500
+lr: 0.0001
+optimizer: adamw
+weight_decay: 0.01
+
+# Loss function
+loss: smooth_l1
+huber_delta: 1.0
+
+# Scheduler
+scheduler: cosine
+eta_min: 0.00001
+
+# Training settings
+batch_size: 1
+num_workers: 0
+gradient_clip: 1.0
+early_stopping_patience: 20
+val_interval: 5

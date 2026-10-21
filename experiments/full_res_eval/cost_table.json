@@ -1,0 +1,82 @@
+{
+  "n_points": 10000,
+  "per_model": {
+    "pointnet": {
+      "t_interp_knn_s": 0.5626189447939396,
+      "t_patch_s": 0.11558332666754723,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 0.20543802823753093,
+      "n_cars_timed": 20
+    },
+    "fno": {
+      "t_interp_knn_s": 0.5715557038784027,
+      "t_patch_s": 0.15246501564979553,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 0.2667544293849478,
+      "n_cars_timed": 20
+    },
+    "pointmae": {
+      "t_interp_knn_s": 0.5663380362093449,
+      "t_patch_s": 0.1974891647696495,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 0.34871252175025785,
+      "n_cars_timed": 20
+    },
+    "pointnet_large": {
+      "t_interp_knn_s": 0.5715856552124023,
+      "t_patch_s": 0.4534062594175339,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 0.7932428941888809,
+      "n_cars_timed": 20
+    },
+    "regdgcnn": {
+      "t_interp_knn_s": 0.5944036096334457,
+      "t_patch_s": 1.6259646452963352,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 2.735455537187986,
+      "n_cars_timed": 20
+    },
+    "point_transformer": {
+      "t_interp_knn_s": 0.6591097861528397,
+      "t_patch_s": 4.833614248782396,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 7.333549509249039,
+      "n_cars_timed": 20
+    },
+    "tripnet": {
+      "t_interp_knn_s": 0.6249608658254147,
+      "t_patch_s": 0.04726109281182289,
+      "n_passes": 1,
+      "ratio_patch_over_interp": 0.0756224835764764,
+      "n_cars_timed": 20
+    },
+    "transolver_plus": {
+      "t_interp_knn_s": 1.2312444858253002,
+      "t_patch_s": 1.1999685615301132,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 0.9745981203122117,
+      "n_cars_timed": 20
+    },
+    "transolver": {
+      "t_interp_knn_s": 1.2205448932945728,
+      "t_patch_s": 1.2077013924717903,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 0.9894772401299271,
+      "n_cars_timed": 20
+    },
+    "transolver_large": {
+      "t_interp_knn_s": 1.246697936207056,
+      "t_patch_s": 1.8899568766355515,
+      "n_passes": 50,
+      "ratio_patch_over_interp": 1.515970165464091,
+      "n_cars_timed": 20
+    },
+    "abupt": {
+      "t_interp_knn_s": 2.4364177212119102,
+      "t_patch_s": 1.8731537982821465,
+      "n_passes": 31,
+      "ratio_patch_over_interp": 0.7688147159553625,
+      "n_cars_timed": 20
+    }
+  }
+}

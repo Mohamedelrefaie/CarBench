@@ -1,0 +1,45 @@
+# Core dependencies
+torch>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+tqdm>=4.65.0
+pyyaml>=6.0
+
+# Point cloud processing
+pyvista>=0.40.0
+trimesh>=3.21.0
+open3d>=0.17.0
+
+# Metrics and evaluation
+scikit-learn>=1.2.0
+torchmetrics>=0.11.0
+
+# Utilities
+psutil>=5.9.0
+GPUtil>=1.4.0
+
+# Logging and configuration
+tensorboard>=2.13.0
+wandb>=0.15.0
+hydra-core>=1.3.0
+omegaconf>=2.3.0
+
+# Data handling
+h5py>=3.8.0
+zarr>=2.14.0
+
+# Testing (optional but recommended)
+pytest>=7.3.0
+pytest-cov>=4.0.0
+
+# Transformer backbones (Transolver family)
+timm>=0.9.0
+einops>=0.7.0
+
+# AB-UPT
+pydantic>=2.0.0
+torch-scatter>=2.1.0
+torch-geometric>=2.5.0

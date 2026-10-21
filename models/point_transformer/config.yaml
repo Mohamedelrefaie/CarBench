@@ -1,0 +1,59 @@
+# models/point_transformer/config.yaml
+# Configuration for Point Transformer
+
+# Model selection
+model_type: point_transformer
+use_lightweight: false  # Set to true for faster training
+
+# Transformer architecture parameters
+hidden_dim: 128        # Hidden dimension (embedding size)
+num_layers: 12         # Number of transformer blocks
+num_neighbors: 16      # Number of neighbors for local attention
+dropout: 0.1          # Dropout rate
+
+# General parameters
+num_points: 10000
+
+# Data settings
+batch_size: 1       # Adjust based on GPU memory
+num_workers: 0
+cache_dir: "/tmp/point_transformer_cache"
+
+# Training settings
+epochs: 200
+lr: 0.0001            # Lower learning rate for transformers
+optimizer: adamw      # AdamW is preferred for transformers
+weight_decay: 0.01    # Higher weight decay for transformers
+beta1: 0.9
+beta2: 0.999
+
+# Loss function
+loss: mse
+
+# Learning rate scheduler
+scheduler: cosine_warmup  # Cosine annealing with warm restarts
+T_0: 50                   # Initial period
+T_mult: 2                 # Period multiplier
+
+# Alternative scheduler options:
+# scheduler: cosine
+# scheduler: reduce_on_plateau
+
+# Training options
+early_stopping_patience: 30
+gradient_clip: 1.0
+warmup_epochs: 5
+
+# Multi-GPU settings
+multi_gpu: true
+distributed: false
+
+# Random seed
+seed: 42
+
+# For lightweight version:
+# use_lightweight: true
+# hidden_dim: 64
+# num_layers: 6
+# num_neighbors: 8
+# batch_size: 32

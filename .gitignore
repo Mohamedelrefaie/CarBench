@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+data/
+*.log
+.DS_Store
+
+# per-geometry triplane fits, regenerated on first use
+cache/

@@ -1,0 +1,11 @@
+% From-scratch vs pre-trained (CarBench metrics, kinematic pressure m^2/s^2).
+\begin{tabular}{llrrrrr}
+\toprule
+Model & Init & MSE & MAE & RMSE & $R^2$ & Rel-$L_2$ \\
+\midrule
+AB-UPT & pre-trained & 559 & 10.81 & 23.60 & 0.9675 & 0.1358 \\
+AB-UPT & from scratch & 605 & 12.57 & 24.59 & 0.9576 & 0.1539 \\
+TripNet & pre-trained & 596 & 13.30 & 24.90 & 0.9590 & 0.1608 \\
+TripNet & from scratch & 673 & 13.58 & 25.94 & 0.9532 & 0.1650 \\
+\bottomrule
+\end{tabular}

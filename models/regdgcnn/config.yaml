@@ -1,0 +1,85 @@
+# models/regdgcnn/config.yaml
+# Configuration for RegDGCNN model on DrivAerNet++ dataset
+
+# Model architecture parameters
+k: 40                    # Number of nearest neighbors for graph construction
+emb_dims: 1024          # Embedding dimensions
+dropout: 0.4            # Dropout rate
+output_channels: 1      # Number of output channels (1 for pressure)
+
+# Data parameters
+# NOTE: dataset_path / subset_dir below are placeholders. train_and_analyze.py
+# requires --dataset-path / --subset-dir on the CLI and always overrides these
+# (see README "Dataset" section and .env.example). cache_dir: null stores the
+# preprocessed cache next to the dataset (<dataset_path>/processed_data).
+dataset_path: "PATH/TO/DrivAerNet/PressureVTK/Dataverse"
+subset_dir: "PATH/TO/DrivAerNet/train_val_test_splits"
+cache_dir: null
+num_points: 10000       # Number of points to sample from each mesh
+num_workers: 0         # Number of data loading workers
+
+# Training parameters
+batch_size: 1          # Batch size per GPU
+epochs: 200             # Maximum number of epochs
+accumulate_grad_batches: 1  # Gradient accumulation steps
+
+# Optimizer settings
+optimizer: adam         # Options: adam, adamw, sgd, rmsprop
+lr: 0.001              # Initial learning rate
+weight_decay: 0.0001   # Weight decay (L2 regularization)
+beta1: 0.9             # Adam beta1
+beta2: 0.999           # Adam beta2
+eps: 1e-8              # Adam epsilon
+momentum: 0.9          # SGD momentum (if using SGD)
+nesterov: true         # SGD nesterov (if using SGD)
+
+# Learning rate scheduler settings
+scheduler: reduce_on_plateau  # Options: reduce_on_plateau, cosine, step, multistep, exponential, none
+scheduler_mode: min          # For reduce_on_plateau: min or max
+scheduler_patience: 10       # For reduce_on_plateau: epochs to wait
+scheduler_factor: 0.1        # For reduce_on_plateau: reduction factor
+min_lr: 1e-7                # Minimum learning rate
+T_max: 150                  # For cosine: same as epochs
+step_size: 30               # For step scheduler
+milestones: [50, 100, 150]  # For multistep scheduler
+gamma: 0.1                  # For step/multistep/exponential schedulers
+
+# Loss function settings
+loss: mse               # Options: mse, mae, smooth_l1, mse_mae
+huber_delta: 1.0       # For smooth_l1 loss
+mse_weight: 0.5        # For combined mse_mae loss
+mae_weight: 0.5        # For combined mse_mae loss
+
+# Training options
+early_stopping_patience: 20  # Patience for early stopping
+gradient_clip: 1.0          # Gradient clipping value
+mixed_precision: true       # Use automatic mixed precision (AMP)
+val_check_interval: 1.0     # How often to run validation (1.0 = every epoch)
+save_top_k: 3              # Save top k checkpoints
+log_every_n_steps: 50      # Logging frequency
+
+# Multi-GPU settings
+multi_gpu: true            # Enable multi-GPU training
+distributed: false         # Use DistributedDataParallel (DDP) instead of DataParallel
+#gpus: "0,1,2,3"           # Specific GPUs to use (comma-separated)
+
+# Experiment settings
+seed: 42                  # Random seed for reproducibility
+deterministic: true       # Make training deterministic
+
+# Device settings
+device: cuda              # Device to use (cuda or cpu)
+
+# Logging and monitoring
+enable_progress_bar: true
+enable_model_summary: true
+track_grad_norm: 2        # Track gradient norms (2 for L2 norm)
+
+# Benchmark specific settings
+benchmark_name: "RegDGCNN_DrivAerNet++"
+description: "RegDGCNN for pressure field prediction on car surfaces"
+tags: ["pressure", "regression", "point_cloud", "automotive"]
+
+# Normalization constants (from data_loader.py)
+pressure_mean: -94.5
+pressure_std: 117.25

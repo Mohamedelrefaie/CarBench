@@ -1,0 +1,23 @@
+{
+  "n_cars": 1154,
+  "B": 10000,
+  "pretrained_R2_mean": 0.9675610029080448,
+  "from_scratch_R2_mean": 0.9597199818759786,
+  "deltaR2_pretrained_minus_fromscratch": {
+    "mean": 0.00784102103206594,
+    "ci95": [
+      0.0069311768523547266,
+      0.00872183371007006
+    ]
+  },
+  "pretrained_MAE_mean": 10.957041271431194,
+  "from_scratch_MAE_mean": 12.569893074200927,
+  "deltaMAE_fromscratch_minus_pretrained_pa": {
+    "mean": 1.612851802769732,
+    "ci95": [
+      1.5714348995706238,
+      1.6557351701594307
+    ]
+  },
+  "win_rate_fromscratch_better_R2": 0.025996533795493933
+}

@@ -1,0 +1,23 @@
+# AB-UPT Model Configuration for DrivAerNet Benchmark (Evaluation Only)
+
+# Pretrained checkpoint (gitignored, kept on local disk; resolved from repo root).
+# Override with --checkpoint on the CLI. See README for how to obtain weights.
+checkpoint_path: "models/abupt/pressure_abupt_checkpoint.th"
+
+# Model architecture parameters (must match pretrained model)
+num_geometry_points: 65536
+num_surface_anchor_points: 16384
+num_geometry_supernodes: 16384
+num_surface_queries: 16384  # Number of query points to evaluate
+
+# Evaluation parameters
+batch_size: 1 # Can increase if GPU memory allows
+device: "cuda"
+
+# Data loading
+num_workers: 4
+pin_memory: true
+
+# These are kept for compatibility but not used in evaluation-only mode
+epochs: 100  # From training
+lr: 0.0001

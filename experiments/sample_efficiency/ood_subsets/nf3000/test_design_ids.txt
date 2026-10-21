@@ -1,0 +1,1 @@
+/home/mohamed/DrivAerNet-Benchmark-Dev/results/cross_category_generalization/category_splits/train_NF_test_E/test_design_ids.txt

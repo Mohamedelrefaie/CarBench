@@ -1,0 +1,12 @@
+{
+  "transolver": 32,
+  "transolver_large": 16,
+  "transolver_plus": 32,
+  "regdgcnn": 8,
+  "point_transformer": 4,
+  "pointnet": 32,
+  "pointnet_large": 32,
+  "pointmae": 32,
+  "fno": 32,
+  "unified_batch": 4
+}

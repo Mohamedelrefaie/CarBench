@@ -1,0 +1,41 @@
+\begin{table*}[h!]
+\centering
+\small
+\caption{\textcolor{cyan}{Subsampled versus full-resolution evaluation on a stratified subset of the
+held-out test split, with all three protocols applied to the same geometries. \emph{Subsampled}
+scores a $10{,}000$-point prediction on those points; \emph{Interpolated} upscales that same
+prediction to every node of the full CFD surface mesh ($3.7$--$5.5\times10^{5}$ nodes, mean
+$455{,}000$) with the radial-basis interpolation;
+\emph{Patchwise} instead predicts every node directly using $\lceil N/10^4 \rceil$ disjoint
+$10{,}000$-point passes ($37$--$55$ per geometry), and therefore involves no interpolation.
+Patchwise evaluation recovers almost all of the apparent degradation, showing that the loss attributed to resolution is dominated by interpolation error.
+$^{\dagger}$AB-UPT\textsuperscript{*} and TripNet decode arbitrary query points directly, so their
+patchwise column evaluates every node from a single geometry encoding, with queries chunked only to
+fit memory, rather than $\lceil N/10^4 \rceil$ independent passes. They are held to the identical
+interpolated protocol as every other model, with the prediction restricted to the same $10{,}000$
+points and upscaled in the same way, so that the column compares evaluation protocols rather than
+architectures.}}
+\label{tab:surface_fullmesh_comparison}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{lccccccc}
+\toprule
+& \multicolumn{3}{c}{\textbf{Relative L2}} & \multicolumn{3}{c}{$\mathbf{R^2}$} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+\textbf{Model} & \textbf{Subsampled} & \textbf{Interpolated} & \textbf{Patchwise}
+               & \textbf{Subsampled} & \textbf{Interpolated} & \textbf{Patchwise} \\
+\midrule
+PointNet & 0.3763 & 0.3937 & 0.3791 & 0.7700 & 0.7485 & 0.7664 \\
+NeuralOperator & 0.2962 & 0.3259 & 0.2987 & 0.8575 & 0.8277 & 0.8549 \\
+PointMAE & 0.2619 & 0.3137 & 0.2670 & 0.8888 & 0.8403 & 0.8839 \\
+PointNetLarge & 0.2390 & 0.3203 & 0.2423 & 0.9075 & 0.8337 & 0.9044 \\
+RegDGCNN & 0.1954 & 0.2803 & 0.1994 & 0.9378 & 0.8724 & 0.9346 \\
+PointTransformer & 0.1851 & 0.2798 & 0.1892 & 0.9442 & 0.8728 & 0.9410 \\
+TripNet$^{\dagger}$ & 0.1569 & 0.2763 & 0.1610 & 0.9596 & 0.8759 & 0.9568 \\
+Transolver++ & 0.1448 & 0.2717 & 0.1492 & 0.9656 & 0.8800 & 0.9625 \\
+Transolver & 0.1436 & 0.2714 & 0.1482 & 0.9661 & 0.8802 & 0.9629 \\
+TransolverLarge & 0.1391 & 0.2701 & 0.1437 & 0.9680 & 0.8813 & 0.9650 \\
+AB-UPT\textsuperscript{*}$^{\dagger}$ & 0.1311 & 0.2688 & 0.1351 & 0.9716 & 0.8825 & 0.9688 \\
+\bottomrule
+\end{tabular}
+\end{table*}

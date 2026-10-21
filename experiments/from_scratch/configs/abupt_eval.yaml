@@ -1,0 +1,24 @@
+# AB-UPT FROM-SCRATCH evaluation config — IDENTICAL eval setup to the pretrained AB-UPT
+# row (same dense point counts as models/abupt/config.yaml) but pointed at our
+# from-scratch checkpoint, so the from-scratch test metrics are computed the exact same
+# way and are directly comparable. Used via:
+#   scripts/train_and_analyze.py abupt --evaluate-only --config <this> --checkpoint <ckpt>
+
+# From-scratch weights (EMA), produced by experiments/from_scratch/train_abupt.py.
+# Override on the CLI with --checkpoint to point at best vs last.
+checkpoint_path: "results_from_scratch/abupt/abupt_from_scratch_best.th"
+
+# Eval point counts — MUST match the pretrained row (models/abupt/config.yaml) exactly.
+num_geometry_points: 65536
+num_surface_anchor_points: 16384
+num_geometry_supernodes: 16384
+num_surface_queries: 16384
+
+batch_size: 1
+device: "cuda"
+num_workers: 4
+pin_memory: true
+
+# unused in eval-only mode (kept for wrapper compatibility)
+epochs: 30
+lr: 5.0e-5

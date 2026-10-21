@@ -1,0 +1,166 @@
+{
+ "benchmark": "CarBench",
+ "models": {
+  "transolver": {
+   "file": "transolver.pth",
+   "sha256": "ca7001e3d258fd1b9d315c13b75e50c5d28a4035f2bdf93beeadabddfa56994c",
+   "bytes": 9902141,
+   "mode": "transolver",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 12.75,
+    "rmse": 24.6,
+    "r2": 0.9577,
+    "rel_l2": 0.1503
+   },
+   "source": "results_backup/transolver/checkpoints/best_checkpoint.pth"
+  },
+  "transolver_large": {
+   "file": "transolver_large.pth",
+   "sha256": "44f7a1949681baf5f5d2509c24d82e751789ab275056fe8c7c3cd83f56417562",
+   "bytes": 30414829,
+   "mode": "transolver",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 12.18,
+    "rmse": 24.1,
+    "r2": 0.9595,
+    "rel_l2": 0.1457
+   },
+   "source": "results_backup/transolver_large/checkpoints/best_checkpoint.pth"
+  },
+  "transolver_plus": {
+   "file": "transolver_plus.pth",
+   "sha256": "0f8f6401fd3aa4c20b4f19fde76211c98d891ac0f8c233089ca88cf3e8506a5d",
+   "bytes": 7282301,
+   "mode": "transolver",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 13.65,
+    "rmse": 25.6,
+    "r2": 0.9543,
+    "rel_l2": 0.1573
+   },
+   "source": "results_backup/transolver_plus/checkpoints/best_checkpoint.pth"
+  },
+  "regdgcnn": {
+   "file": "regdgcnn.pth",
+   "sha256": "ad3374daf1bbe59a55c2bc6045259047194e9157554c0a0e6261821a1c80fb71",
+   "bytes": 5827812,
+   "mode": "standard",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 17.41,
+    "rmse": 30.9,
+    "r2": 0.9327,
+    "rel_l2": 0.2006
+   },
+   "source": "results_backup/regdgcnn/checkpoints/best_checkpoint.pth"
+  },
+  "point_transformer": {
+   "file": "point_transformer.pth",
+   "sha256": "28a622c04a0c65db7bccd767cb75e797b6d145b0043f775edaee60eed95f7dc0",
+   "bytes": 12330607,
+   "mode": "standard",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 17.05,
+    "rmse": 30.3,
+    "r2": 0.9359,
+    "rel_l2": 0.1909
+   },
+   "source": "results_backup/pointtransformer/checkpoints/best_checkpoint.pth"
+  },
+  "pointnet": {
+   "file": "pointnet.pth",
+   "sha256": "f73dbdfd801a20b7bbb47518e65e158e06e220d0a01a4aecbe207fb5ddc7100e",
+   "bytes": 6742440,
+   "mode": "standard",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 31.12,
+    "rmse": 57.9,
+    "r2": 0.7639,
+    "rel_l2": 0.3803
+   },
+   "source": "results_backup/pointnet/checkpoints/best_checkpoint.pth"
+  },
+  "pointmae": {
+   "file": "pointmae.pth",
+   "sha256": "35926dd3158fd7d328536e3f0ce529f4ae93458d964abdc0b83d28575d051a78",
+   "bytes": 6711576,
+   "mode": "standard",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 22.58,
+    "rmse": 41.4,
+    "r2": 0.8791,
+    "rel_l2": 0.2713
+   },
+   "source": "results_backup/pointmae/checkpoints/best_checkpoint.pth"
+  },
+  "fno": {
+   "file": "fno.pth",
+   "sha256": "69573ec2b41ef111d2fa8d86517b993dcea329440587764fd9a6757357a1a55c",
+   "bytes": 8407637,
+   "mode": "standard",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 25.02,
+    "rmse": 46.2,
+    "r2": 0.8503,
+    "rel_l2": 0.3016
+   },
+   "source": "results_backup/neuraloperator/checkpoints/best_checkpoint.pth"
+  },
+  "abupt": {
+   "file": "abupt.th",
+   "sha256": "5a378f8b836e4528b143f22aa05a234063d9171403a461845c132b7079a00db2",
+   "bytes": 48184434,
+   "mode": "abupt",
+   "reproduces": "Supplementary Table 6",
+   "metrics": {
+    "mae": 12.57,
+    "rmse": 24.6,
+    "r2": 0.9576,
+    "rel_l2": 0.1539
+   },
+   "source": "results_from_scratch/abupt/abupt_from_scratch_best.th"
+  },
+  "tripnet": {
+   "file": "tripnet.pt",
+   "sha256": "1b9183b24f85df927acea97b6e0eea9388c57be27bcdc7981f679ba235015d7c",
+   "bytes": 31706074,
+   "mode": "tripnet",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 13.53,
+    "rmse": 25.7,
+    "r2": 0.9537,
+    "rel_l2": 0.1623
+   },
+   "source": "results_from_scratch/tripnet/tripnet_from_scratch.pt",
+   "extra_files": [
+    {
+     "file": "tripnet_decoder.pt",
+     "sha256": "ee53735ff3b8578e739ec0d6004e53bf5b5100475a88775b7f16d7f6c7c30e02",
+     "bytes": 185152,
+     "note": "shared occupancy decoder used to fit each geometry's triplane"
+    }
+   ]
+  }
+ },
+ "total_bytes": 167695003,
+ "omitted": {
+  "pointnet_large": {
+   "reason": "checkpoint not released; the model code and configuration are included so it can be retrained",
+   "reproduces": "Table 1",
+   "metrics": {
+    "mae": 20.51,
+    "rmse": 37.2,
+    "r2": 0.9025,
+    "rel_l2": 0.2436
+   }
+  }
+ }
+}

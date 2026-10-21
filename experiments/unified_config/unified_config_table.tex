@@ -1,0 +1,16 @@
+\begin{tabular}{lrrrrr}
+\toprule
+Model & Params & $R^2$ & MAE & RMSE & Rel-$L_2$ \\
+\midrule
+Transolver-L & 7.59M & 0.9610 & 11.61 & 23.61 & 0.1557 \\
+Transolver & 2.46M & 0.9609 & 11.83 & 23.63 & 0.1558 \\
+Transolver++ & 1.81M & 0.9606 & 11.78 & 23.72 & 0.1564 \\
+RegDGCNN & 1.44M & 0.9364 & 17.08 & 30.04 & 0.1985 \\
+PointMAE & 1.67M & 0.9339 & 17.15 & 30.63 & 0.2024 \\
+PointNet-L & 32.58M & 0.9184 & 22.07 & 34.03 & 0.2248 \\
+FNO & 2.10M & 0.8378 & 24.92 & 48.45 & 0.3181 \\
+PointNet & 1.67M & 0.7679 & 30.12 & 57.40 & 0.3792 \\
+PointTransformer & 3.06M & \multicolumn{4}{c}{diverged (NaN)} \\
+\bottomrule
+\end{tabular}
+% PointTransformer diverged (NaN from epoch 1) under the unified lr=1e-3; its native config uses lr=1e-4 with LR warmup.

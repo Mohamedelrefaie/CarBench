@@ -1,0 +1,26 @@
+# TripNet from-scratch config (rebuttal point 2). Re-implemented from arXiv:2503.17400.
+# See IMPLEMENTATION_NOTES.md for the paper specs and every inferred (paper-silent) choice.
+
+# --- triplane / occupancy fitting (geometry encoder) ---
+channels: 32
+res: 128
+occ_n_uniform: 1000000        # per-car occupancy pool (paper: 5M; reduced for tractability)
+occ_n_surface: 1000000        # near-surface (surface + 1% bbox-diag gaussian jitter)
+stage1_cars: 500              # joint auto-decode set (paper: 500)
+stage1_epochs: 500            # paper
+stage2_epochs: 70             # paper (~20s/car there; faster here)
+occ_lr: 1.0e-3                # paper
+occ_batch_pts: 200000         # points/step during fitting
+
+# --- pressure predictor ---
+unet_base: 64                 # paper-silent (documented)
+mlp_width: 256                # paper-silent (documented; "4-layer MLP")
+epochs: 200                   # paper
+lr: 1.0e-3                    # paper, Adam
+batch_size: 8                 # paper (A100)
+n_query: 200000               # query pts/car (paper)
+seed: 42
+loss: mse
+
+# Pretrained TripNet baseline to compare against (paper-reported, normalized pressure):
+# relL2=0.2035, relL1=0.1852, MSE=0.0423, MAE=0.1110  (arXiv:2503.17400, DrivAerNet surface p)

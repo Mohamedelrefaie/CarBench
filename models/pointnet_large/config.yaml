@@ -1,0 +1,47 @@
+# models/pointnet_large/config.yaml
+# Configuration for Large PointNet model on DrivAerNet++ dataset
+
+# Model variant: 'large' or 'xl'
+model_variant: large
+
+# Model architecture settings
+feature_transform: false  # Whether to use feature transformation
+dropout: 0.3             # Regular dropout rate
+dropout_heavy: 0.5       # Heavy dropout rate for deeper layers
+output_channels: 1       # Number of output channels (1 for pressure)
+
+# Data settings
+num_points: 10000        # Number of points to sample from each mesh
+batch_size: 1            # Smaller batch size due to larger model
+num_workers: 0           # Number of workers for data loading
+cache_dir: null          # Directory to cache preprocessed data
+
+# Training settings
+epochs: 150              # Maximum number of epochs
+lr: 0.0001              # Lower learning rate for larger model
+optimizer: adamw         # Optimizer: adam, adamw, sgd, lamb
+weight_decay: 0.0001    # Weight decay for regularization
+
+# AdamW optimizer settings
+beta1: 0.9
+beta2: 0.999
+eps: 1.0e-08
+
+# Loss function
+loss: mse               # Options: mse, mae, smooth_l1, mse_mae, adaptive
+
+# Learning rate scheduler
+scheduler: onecycle      # Options: onecycle, cosine, reduce_on_plateau, step
+max_lr: 0.01            # Maximum learning rate for OneCycle
+
+# Training options
+early_stopping_patience: 20  # Early stopping patience
+gradient_clip: 1.0          # Gradient clipping value
+use_amp: true               # Use automatic mixed precision
+
+# Multi-GPU settings
+multi_gpu: true             # Use multiple GPUs if available
+distributed: false          # Use distributed data parallel
+
+# Random seed for reproducibility
+seed: 42

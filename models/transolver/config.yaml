@@ -1,0 +1,78 @@
+# models/transolver/config.yaml
+# Configuration for Transolver with SDF and normals for pressure prediction
+
+# Model selection
+model_type: transolver
+use_lightweight: false     # Use full Transolver model
+use_amp: false             # Enable mixed precision - helps with memory for large point clouds
+
+# Transolver architecture parameters (matching original CFD implementation)
+n_hidden: 256              # Hidden dimension
+n_layers: 5                # Number of transformer blocks  
+n_head: 8                  # Number of attention heads
+mlp_ratio: 2               # Keep at 1 like original (you had 2, but original uses 1)
+slice_num: 32              # Number of slices for physics attention
+dropout: 0.0               # Original uses 0.0 (you had 0.1, but let's match original first)
+unified_pos: false         # Can try true later for advanced position encoding
+ref: 8                     # Reference grid size for unified position encoding
+
+# General parameters
+num_points: 10000          # Balanced: 10k surface + 10k interior for balanced SDF diversity
+use_sdf: false             # NEW: Use SDF and interior points (7D features) or surface-only (3D features)
+                          # Default: false (surface-only with 3D [x,y,z] features)
+                          # Set to true for 7D [x,y,z,sdf,nx,ny,nz] with interior points
+
+# Data settings - CRITICAL UPDATES
+batch_size: 128            # Reduced further - SDF computation + attention is memory intensive
+num_workers: 32             # Reduced - SDF computation can be CPU intensive
+cache_dir: "/tmp/transolver_sdf_cache"  # Updated cache directory name
+
+# Training settings - ADJUSTED FOR SDF COMPLEXITY
+epochs: 1000                # Reduced from 500 - model should converge faster with geometric features
+lr: 0.001                  # Match original CFD implementation (you had 0.002)
+optimizer: adam            # Adam optimizer
+weight_decay: 0.0          # Match original (you had 1e-5)
+
+# Loss function
+loss: mse
+
+# Learning rate scheduler - StepLR
+scheduler: StepLR         # Use StepLR with step decay
+step_size: 150            # Reduce LR every 50 epochs
+gamma: 0.1               # Multiply LR by 0.1 at each step
+
+# Training options
+early_stopping_patience: 50   # Reduced - model should converge faster with geometric features
+gradient_clip: 1.0            # Keep gradient clipping
+val_iter: 5                   # Validate every 5 epochs
+
+# Multi-GPU settings
+multi_gpu: true
+distributed: false
+
+# Random seed
+seed: 42
+
+# NEW: SDF and geometry processing settings
+sdf_computation:
+  surface_extraction_method: "auto"      # Let PyVista auto-extract surface
+  normal_computation: "auto_orient"      # Auto-orient normals consistently
+  distance_tolerance: 1e-6               # Points within this distance considered on surface
+  
+# Feature normalization settings (NEW)
+normalize_features:
+  normalize_coordinates: true            # Normalize x,y,z coordinates
+  normalize_sdf: true                   # Normalize SDF values
+  normalize_normals: false              # Normals are already unit vectors
+
+# Additional settings for debugging
+debug_shapes: true                      # Print tensor shapes during training
+save_attention_maps: false             # Whether to save attention visualizations
+log_sdf_stats: true                    # NEW: Log SDF computation statistics
+validate_geometry: true                # NEW: Validate geometric features during loading
+
+# Memory management (NEW SECTION)
+memory_settings:
+  max_cache_size_gb: 10                 # Maximum cache size in GB
+  clear_cache_every_n_epochs: 50       # Clear cache periodically to manage memory
+  prefetch_factor: 2                    # Prefetch batches for efficiency

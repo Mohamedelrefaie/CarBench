@@ -1,0 +1,1 @@
+/home/mohamed/mit/datasets/DrivAerNet/train_val_test_splits/val_design_ids.txt

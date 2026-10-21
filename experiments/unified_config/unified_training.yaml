@@ -1,0 +1,36 @@
+# Strictly unified training configuration — rebuttal reference baseline.
+#
+# Single source of truth for the training recipe applied IDENTICALLY to every model.
+# `generate_unified_configs.py` overlays this block onto each model's base config
+# (architecture params are preserved; only these training knobs are unified).
+#
+# Rationale: Adam + MSE are chosen because the Transolver family hardcodes them and
+# the point-cloud models read them from config — so the recipe is enforced with NO
+# changes to any model wrapper or the benchmark core.
+
+# --- optimization ---
+optimizer: adam
+lr: 0.001
+weight_decay: 0.0
+
+# --- loss ---
+loss: mse
+
+# --- LR schedule (cosine over the full epoch budget) ---
+scheduler: cosine
+T_max: 100          # cosine horizon == epochs
+eta_min: 1.0e-6
+min_lr: 1.0e-6      # alias some wrappers read
+
+# --- budget ---
+epochs: 100
+num_points: 10000
+seed: 42
+
+# --- held constant ---
+gradient_clip: 1.0
+mixed_precision: true
+early_stopping_patience: 100000   # >= epochs -> early stopping never fires (uniform length)
+
+# --- batch size: PLACEHOLDER, overwritten by probe_batch_size.py ---
+batch_size: 1

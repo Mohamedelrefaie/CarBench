@@ -1,0 +1,12 @@
+% R3.5 cross-category OOD sample efficiency: test R^2 on held-out E vs N+F train size.
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Model & metric & 600 & 1500 & 3000 & 5388 \\
+& N+F train cars & & & & \\
+\midrule
+Transolver & $R^2$ (E, OOD) & 0.9095 & 0.9228 & 0.9161 & 0.9088 \\
+ & Rel-$L_2$ & 0.2383 & 0.2200 & 0.2294 & 0.2391 \\
+Transolver++ & $R^2$ (E, OOD) & 0.9148 & 0.9248 & 0.9114 & 0.9241 \\
+ & Rel-$L_2$ & 0.2311 & 0.2171 & 0.2358 & 0.2182 \\
+\bottomrule
+\end{tabular}

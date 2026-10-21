@@ -1,0 +1,42 @@
+# models/fno/config.yaml
+# Configuration for Fourier Neural Operator (FNO)
+
+# FNO model parameters - OPTIMIZED FOR SPEED
+grid_size: 32    # Reduced from 64 - smaller grid for faster computation
+modes: 8         # Reduced from 12 - fewer Fourier modes
+width: 16        # Reduced from 32 - narrower layers
+
+# General parameters
+num_points: 10000
+
+# Data settings - OPTIMIZED FOR SPEED
+batch_size: 1   # Increased from 8 for better GPU utilization
+num_workers: 0   # Increased for faster data loading
+cache_dir: "/tmp/fno_cache"  # Enable caching for faster data loading
+
+# Training settings
+epochs: 100
+lr: 0.002        # Slightly higher learning rate
+optimizer: adamw
+weight_decay: 0.0001
+
+# Loss function
+loss: mse
+
+# Learning rate scheduler
+scheduler: cosine
+T_max: 100
+
+# Training options
+early_stopping_patience: 15
+gradient_clip: 1.0
+
+# Multi-GPU settings
+multi_gpu: true
+distributed: false
+
+# Random seed
+seed: 42
+
+# Mixed precision training
+use_amp: false  # Disable AMP as it causes issues with FFT

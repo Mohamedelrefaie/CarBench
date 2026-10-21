@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+title: "CarBench: A Comprehensive Benchmark for Neural Surrogates on High-Fidelity 3D Car Aerodynamics"
+message: "If you use this software, please cite both the software and the paper."
+type: software
+authors:
+  - family-names: Elrefaie
+    given-names: Mohamed
+    orcid: "https://orcid.org/0009-0008-9981-0930"
+  - family-names: Shu
+    given-names: Dule
+  - family-names: Klenk
+    given-names: Matt
+  - family-names: Ahmed
+    given-names: Faez
+license: MIT
+repository-code: "https://github.com/Mohamedelrefaie/CarBench"
+url: "https://web.mit.edu/decode/www/carbench/"
+preferred-citation:
+  type: article
+  title: "CarBench: A comprehensive benchmark for neural surrogates on high-fidelity 3D car aerodynamics"
+  authors:
+    - family-names: Elrefaie
+      given-names: Mohamed
+      orcid: "https://orcid.org/0009-0008-9981-0930"
+    - family-names: Shu
+      given-names: Dule
+    - family-names: Klenk
+      given-names: Matt
+    - family-names: Ahmed
+      given-names: Faez
+  journal: "Communications Engineering"
+  year: 2026
+  doi: "10.1038/s44172-026-00805-2"

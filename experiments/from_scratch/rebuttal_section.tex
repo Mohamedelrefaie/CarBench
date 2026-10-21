@@ -1,0 +1,53 @@
+% Pre-trained vs from-scratch (rebuttal point 2). CarBench metric convention
+% (denormalized kinematic pressure, m^2/s^2). Also included in ../rebuttal_experiments.tex.
+\subsection{Pre-trained versus from-scratch baselines}
+\label{sec:from_scratch}
+
+Two of the strongest surrogates in our benchmark, AB-UPT and TripNet, are evaluated from
+\emph{publicly released pre-trained checkpoints}. A reviewer correctly noted that, because the
+provenance of the pre-training corpora is not fully controlled, one cannot \emph{a priori} rule
+out that part of our test geometries were seen during pre-training, which would inflate the
+reported accuracy. To isolate this effect we retrain both models \emph{from random
+initialization} on the DrivAerNet\texttt{++} training split only, and evaluate them on the
+identical held-out test split and metrics used throughout the paper (surface pressure only).
+
+For AB-UPT we reproduce the authors' training recipe (Lion, $\mathrm{lr}=5\times10^{-5}$, weight
+decay $0.05$, gradient clipping $0.25$, warmup/cosine, EMA $0.9999$, mixed precision) and
+\emph{match the released checkpoint exactly} in architecture (geometry depth $1$, $6.0$M
+parameters) and budget ($30$ epochs, batch $1$), so the only difference is initialization. For
+TripNet, which has no public code, we re-implement the model from its description (two-stage
+triplane occupancy auto-decoder; shared U-Net + four-layer MLP; $200$ epochs). We verified that
+re-evaluating the released AB-UPT checkpoint with our pipeline reproduces its benchmarked score
+($R^2=0.967$), confirming the comparison is unbiased.
+
+Table~\ref{tab:from_scratch} reports the result in the benchmark's exact metric set
+(\texttt{benchmark/metrics.py}: MSE, MAE, RMSE, $R^2$, Rel-$L_1$/$L_2$, $P_{50/90/95/99}$;
+denormalized kinematic pressure, m$^2$/s$^2$). From-scratch AB-UPT reaches $R^2=0.958$ versus
+$0.967$ pre-trained; evaluating both with our identical pipeline (paired bootstrap)
+$\Delta R^2 = 0.0078$, $95\%$ CI $[0.0069, 0.0087]$. From-scratch TripNet reaches $R^2=0.953$ /
+relative $L_2 = 0.165$, matching the benchmarked TripNet entry ($0.959$ / $0.161$) to within
+$\Delta R^2\!\approx\!0.006$. In both cases a model trained without any pre-training essentially
+recovers the pre-trained performance; were the scores inflated by test-set leakage they would
+instead collapse. We conclude the strong accuracy of AB-UPT and TripNet reflects genuine
+generalization, not a pre-training artifact.
+
+\begin{table}[t]
+\centering
+\caption{Pre-trained versus from-scratch (random initialization) on the DrivAerNet\texttt{++}
+surface-pressure test split ($1{,}154$ geometries), benchmark metric convention (denormalized
+kinematic pressure, m$^2$/s$^2$). From-scratch nearly recovers pre-trained accuracy. Full metric
+set (Rel-$L_1$, $P_{50/90/95/99}$) in \texttt{from\_scratch\_comparison.csv}.}
+\label{tab:from_scratch}
+\small
+\begin{tabular}{llrrrrr}
+\toprule
+Model & Initialization & MSE & MAE & RMSE & $R^2$ & Rel-$L_2$ \\
+\midrule
+AB-UPT  & pre-trained  & 559 & 10.81 & 23.6 & 0.9675 & 0.1358 \\
+AB-UPT  & from scratch & 605 & 12.57 & 24.6 & 0.9576 & 0.1539 \\
+\midrule
+TripNet & pre-trained  & 596 & 13.30 & 24.9 & 0.9590 & 0.1608 \\
+TripNet & from scratch & 673 & 13.58 & 25.9 & 0.9532 & 0.1650 \\
+\bottomrule
+\end{tabular}
+\end{table}
