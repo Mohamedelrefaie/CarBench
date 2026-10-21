@@ -29,5 +29,7 @@ preferred-citation:
     - family-names: Ahmed
       given-names: Faez
   journal: "Communications Engineering"
+  publisher:
+    name: "Nature Portfolio"
   year: 2026
   doi: "10.1038/s44172-026-00805-2"
